@@ -1,0 +1,19 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-size: 62.5%;
+	color: white;
+}
+
+main {display: flex;width: 100vw;}
+
+.transactions ul {display: flex; justify-content: space-between; padding: 0 10px; width: 90%}
+.transactions ul li {font-size: 1rem;width: 150px;}
+form {display: flex; justify-content: space-between; width: 100%; padding: 5px 10px; margin-top: 10px; border-top: 1px solid #5f6979;}
+form input {width: 130px; }
+form select {width: 250px;}
+input[type="submit"] {width: 45px;}

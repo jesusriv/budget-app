@@ -1,0 +1,106 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-size: 62.5%;
+	color: white;
+}
+
+p {margin: 0 !important}
+
+ul li {list-style: none;}
+h1 {font-size: 1.125rem; color: white; }
+h5 {font-size: .75rem; color: #c9c9c9; margin-top: -8px;}
+a {text-decoration: none}
+
+main {display: flex;width: 100vw;}
+
+/* ASIDE  */
+aside {background-color: #65717f; width: 20%; position: fixed; height: 100vh;}
+.aside-header {width: 100%; padding: 10px 15px;}
+aside ul {width: 100%; flex-direction: column;}
+.aside-bottom {background-color: #5c6674; height: 100%; padding: 0 10px;}
+.aside a {width: 100%; padding: 0 10px;}
+aside a:hover { color: rgba(255, 255, 255, 0.8); text-decoration: none; background-color: #3a4049}
+
+
+/*  BUDGET BUTTON */
+.buttons-nav {display: flex; align-items: center; padding: 0 10px;}
+.buttons-nav p {font-size: 1.125rem; color: white; margin: 10px 0px}
+.buttons-nav svg {fill: white; height: 2.25rem; width: 2.25rem}
+.selected {background-color: #4e5663 }
+
+
+/* ACCOUNTS SECTION (ASIDE) */
+.accounts-budget {display: flex; justify-content: space-between; align-items: center; padding: 0 10px;}
+.accounts-budget p, .accounts-budget h4 {font-size: .95rem; }
+.addAccount {padding: 0 10px; font-size: 1.15rem}
+.addAccount:hover {cursor:pointer;}
+
+.banks, .bank {color: rgba(255, 255, 255, 0.8); display: flex; justify-content: space-between; width: 100%; }
+.bank {padding: 10px 10px; dislpay: flex; align-items: center;}
+.banks p {font-size: .75rem}
+
+/* SECTION */
+section {padding: 15px 0; width: 80%; margin-left: 20%; background-color: #454d55;}
+header { padding: 0 10px; width: 100%; display: flex; justify-content: flex-end;}
+header p {font-size: 1.125rem; color: #01d501;}
+header p span {color: #fff;}
+h2 {padding: 0 10px;}
+h4 {font-size: 16px}
+
+/* FORMS */
+.budgeted-form input[type="number"] {width: 100px;}
+
+
+table {width: 100% !important;}
+th, td {font-size: 1.125rem;}
+.col-1 {width: 550px;}
+
+
+#modal {
+	display: none;
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, .4);
+	top: 0;
+}
+#modal .title,
+.login-body form .title {font-size: 2rem;}
+
+#modal label {font-size: 1.125rem}
+.login-body form p {font-size: .85rem}
+#modal form,
+.login-body form {
+	width: 500px;
+	padding: 30px;
+	border-radius: 5px;
+	z-index: 1000;
+	background-color: #454d55;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+#login {
+	width: 350px;
+}
+#modal input[type="submit"],
+.login-body form input[type="submit"] {margin: 15px 0;}
+
+.show{display: flex !important; justify-content: center; align-items: center}
+.hide{display: none !important;}
+.login-body {
+	width: 100vw; 
+	height: 100vh; 
+	display: flex; 
+	justify-content: center; align-items: center; background-color: #dcdbd8;}
+.login-body form button {border: none; color: white; background-color: #454d55; font-size: .75rem;}
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
