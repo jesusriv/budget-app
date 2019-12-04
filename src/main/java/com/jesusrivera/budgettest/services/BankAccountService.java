@@ -17,9 +17,13 @@ public class BankAccountService {
 	private BankAccountRepository bAR;
 	
 	public BankAccount create(BankAccount ba) {
-		BankAccount b = bAR.save(ba);
-		bAR.save(b);
-		return b;
+		BankAccount bankaccount = new BankAccount();
+		bankaccount.setBalance(ba.getBalance());
+		bankaccount.setBankName(ba.getBankName());
+		bankaccount.setUser(ba.getUser());
+		bankaccount.setTypeOfAccount(ba.getTypeOfAccount());
+		bAR.save(bankaccount);
+		return bankaccount;
 	}
 	
 	public List<BankAccount> getAll() {
