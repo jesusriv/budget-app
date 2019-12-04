@@ -23,7 +23,11 @@
     				</p>
     				<p class='form-group'>
     					<form:label path="typeOfAccount">Type of Account</form:label>
-    					<form:input class="form-control" type="text" path="typeOfAccount"/>
+    					<form:select class="form-control custom-select" type="text" path="typeOfAccount">
+	    					<form:option value="" disabled="true"></form:option>
+    						<form:option value="checking">Checking</form:option>
+    						<form:option value="savings">Savings</form:option>
+    					</form:select>
     				</p>
     				<form:input type="hidden" path="user" value="${user.id}"/>
     				<input class="btn btn-primary" type="submit" value="Add Account"/>
