@@ -17,9 +17,9 @@ public class BankAccountService {
 	private BankAccountRepository bAR;
 	
 	public BankAccount create(BankAccount ba) {
-		BankAccount b = bAR.save(ba);
-		bAR.save(b);
-		return b;
+		BankAccount bankaccount = bAR.save(ba);
+		bAR.save(bankaccount);
+		return bankaccount;
 	}
 	
 	public List<BankAccount> getAll() {
