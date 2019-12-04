@@ -57,7 +57,6 @@ public class MainController {
 		List<Category> c = cS.findAll();
 		List<SubCategory> sC = budget.getSubCategories();
 		List<BankAccount> bA = u.getBankAccounts();
-		System.out.println(bA);
 		
 		String available = bS.getAvailableToBudget(budget.getId());
 		Double totalBudget = (Double) budget.getTotalInBudget();
