@@ -1,5 +1,7 @@
 package com.jesusrivera.budgettest.services;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -166,6 +168,36 @@ public class BudgetService {
 			b.setName(budget.getName());
 			bR.save(b);
 			return b;
+		}
+		return null;
+	}
+	
+	public String getTotalInBudget(Long budgetId) {
+		NumberFormat formatter = new DecimalFormat("#,###,##0.00");
+		Optional<Budget> oB = bR.findById(budgetId);
+		if (oB.isPresent()) {
+			Budget b = oB.get();
+			Double total = b.getTotalInBudget();
+			return formatter.format(total);
+		}
+		return null;
+	}
+	
+	public String getAvailableToBudget(Long budgetId) {
+		NumberFormat formatter = new DecimalFormat("#,###,##0.00");
+		Optional<Budget> oB = bR.findById(budgetId);
+		if (oB.isPresent()) {
+			Budget b = oB.get();
+			double availableToBudget = b.getTotalInBudget();
+			System.out.println(b.getTotalInBudget());
+			for (int i = 0; i < b.getUser().getBudget().getSubCategories().size(); i++) {
+				availableToBudget -= b.getUser().getBudget().getSubCategories().get(i).getBudgeted();
+			}
+			for (int i = 0; i < b.getUser().getBudget().getSubcategories().size(); i++) {
+				availableToBudget -= b.getUser().getBudget().getSubcategories().get(i).getActivity();
+			}
+			Double available = (Double) availableToBudget;
+			return formatter.format(available);
 		}
 		return null;
 	}

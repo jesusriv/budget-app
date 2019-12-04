@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.jesusrivera.budgettest.models.Budget;
 import com.jesusrivera.budgettest.models.User;
+import com.jesusrivera.budgettest.repositories.BudgetRepository;
 import com.jesusrivera.budgettest.services.BudgetService;
 import com.jesusrivera.budgettest.services.UserService;
 import com.jesusrivera.budgettest.validators.UserValidator;
@@ -31,6 +33,8 @@ public class UserController {
 	private UserValidator uV;
 	@Autowired
 	private BudgetService bS;
+	@Autowired
+	private BudgetRepository bR;
 
 	
 	@PostMapping("/api/create/user")
@@ -41,7 +45,9 @@ public class UserController {
 			return null;
 		}
 		User u = uS.create(user);
-		bS.createForRegistration(u.getId());
+		Budget budget = bS.createForRegistration(u.getId());
+		budget.setDefaultUser(u);
+		bR.save(budget);
 		session.setAttribute("userId", u.getId());
 		return "redirect:/budget";
 	}

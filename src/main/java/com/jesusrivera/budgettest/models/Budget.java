@@ -9,8 +9,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -27,8 +29,14 @@ public class Budget {
 	@Size(min=2)
 	private String name;
 	
+	private double totalInBudget;
+
 	@OneToMany(mappedBy="budget", fetch = FetchType.LAZY)
 	private List<SubCategory> subcategories;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "users_id")
+	private User defaultUser;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
@@ -71,6 +79,30 @@ public class Budget {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public double getTotalInBudget() {
+		return totalInBudget;
+	}
+
+	public void setTotalInBudget(double totalInBudget) {
+		this.totalInBudget = totalInBudget;
+	}
+	
+	public List<SubCategory> getSubcategories() {
+		return subcategories;
+	}
+
+	public void setSubcategories(List<SubCategory> subcategories) {
+		this.subcategories = subcategories;
+	}
+	
+	public User getDefaultUser() {
+		return defaultUser;
+	}
+
+	public void setDefaultUser(User defaultUser) {
+		this.defaultUser = defaultUser;
 	}
 
 	public Date getCreatedAt() {

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.jesusrivera.budgettest.models.BankAccount;
+import com.jesusrivera.budgettest.models.Budget;
 import com.jesusrivera.budgettest.models.User;
 import com.jesusrivera.budgettest.repositories.BankAccountRepository;
+import com.jesusrivera.budgettest.repositories.BudgetRepository;
 import com.jesusrivera.budgettest.repositories.UserRepository;
 import com.jesusrivera.budgettest.services.BankAccountService;
 import com.jesusrivera.budgettest.services.UserService;
@@ -32,17 +34,22 @@ public class BankAccountController {
 	private UserRepository uR;
 	@Autowired
 	private BankAccountRepository bAR;
+	@Autowired
+	private BudgetRepository bR;
 	
 	@PostMapping("/api/create/bankaccount/{id}/{budgetid}")
 	public String create(@Valid @ModelAttribute("bankaccount") BankAccount bA, BindingResult result, @PathVariable("id") Long id, @PathVariable("budgetid") Long budgetid) {
 		if (result.hasErrors()) {
 			return null;
 		}
+		User u = uS.findById(id);
+		List<BankAccount> accounts = u.getBankAccounts();
+		System.out.println(accounts);
 		
 		BankAccount b = bAS.create(bA);
-		User u = uS.findById(id);
-		u.getBankAccounts().add(b);
-		b.setUser(u);
+		Budget budget = u.getBudget();
+		budget.setTotalInBudget(budget.getTotalInBudget() + b.getBalance());
+		bR.save(budget);
 		bAR.save(b);
 		uR.save(u);
 		return "redirect:/budget";

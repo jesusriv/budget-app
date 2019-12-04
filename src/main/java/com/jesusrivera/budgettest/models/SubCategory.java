@@ -90,7 +90,7 @@ public class SubCategory {
 		this.activity = activity;
 	}
 
-	public double getAvailable() {
+	public double () {
 		return available;
 	}
 

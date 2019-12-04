@@ -25,6 +25,7 @@
     					<form:label path="typeOfAccount">Type of Account</form:label>
     					<form:input class="form-control" type="text" path="typeOfAccount"/>
     				</p>
+    				<form:input type="hidden" path="user" value="${user.id}"/>
     				<input class="btn btn-primary" type="submit" value="Add Account"/>
     			</form:form>
     		</div>
@@ -43,22 +44,15 @@
 	    		<div class="accounts">
 	    			<div class="accounts-budget">
 	    				<h4>Budget</h4>
-	    				<p>$${thousand.format(budgetTotal)}</p>
+	    				<p>$${budgetTotal}</p>
 	    			</div>
 		    		<ul class='banks'>
 		    			<c:forEach items="${banks}" var="bA">
 	    					<div>
 	    						<a href="/bankaccount/${bA.id}" class="bank">
 	    						<p><c:out value="${bA.bankName}"/></p>
-		    					<c:choose>
-				    				<c:when test="${bA.balance > 999}">
-					    				<p><c:out value="$${thousand.format(bA.balance)}"/></p>
-					    			</c:when>
-					    			<c:otherwise>
-					    				<p><c:out value="$${formatter.format(bA.balance)}"/></p>
-					    			</c:otherwise>
-				    			</c:choose>
-	    					</a>
+					    		<p><c:out value="$${formatter.format(bA.balance)}"/></p>
+	    						</a>
 	    					</div>
 		    			</c:forEach>
 		    		</ul> 
@@ -68,19 +62,7 @@
 	    	</aside>
 	    	<section>
 	    		<header>
-	    			<!-- Available to Budget is total sum of money minus amount already budgeted -->
-	    			<c:choose>
-	    				<c:when test="${available > 999}">
-		    				<p>Available to Budget: <span>$${thousand.format(available)}</span></p>
-		    			</c:when>
-		    			<c:when test="${available < 1}">
-		    				<p>Available to Budget: <span>$0.00</span></p>
-		    			</c:when>
-		    			<c:otherwise>
-		    				<p>Available to Budget: <span>$${formatter.format(available)}</span></p>
-		    			</c:otherwise>
-	    			</c:choose>
-	    			
+		    		<p>Available to Budget: <span>$${available}</span></p>
 	    		</header>
 	    		<div>
 		    		<c:forEach items="${categories}" var="c">

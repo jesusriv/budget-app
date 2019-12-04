@@ -50,35 +50,26 @@ public class MainController {
 		if (session.isNew()) {
 			return "index.jsp";
 		}
-		NumberFormat formatter = new DecimalFormat("#0.00");
-		NumberFormat thousand = new DecimalFormat("#0,000.00");
+		NumberFormat formatter = new DecimalFormat("#,###,##0.00");
 		
 		User u = uS.findById((Long) session.getAttribute("userId"));
-		List<Budget> b = bS.findByUser((Long) session.getAttribute("userId"));
-		Budget bb = b.get(0);
+		Budget budget = u.getBudget();
 		List<Category> c = cS.findAll();
-		List<SubCategory> sC = bb.getSubCategories();
+		List<SubCategory> sC = budget.getSubCategories();
 		List<BankAccount> bA = u.getBankAccounts();
+		System.out.println(bA);
 		
-		double available = 0.00;
-		double totalForBudget = 0.00;
-		
-		for (int i = 0; i < bA.size(); i++) {
-			available += bA.get(i).getBalance();
-		}
-		totalForBudget += available;
-		for (int i = 0; i < sC.size(); i++) {
-			available -= sC.get(i).getBudgeted();
-		}
+		String available = bS.getAvailableToBudget(budget.getId());
+		Double totalBudget = (Double) budget.getTotalInBudget();
+		String totalInBudget = formatter.format(totalBudget.doubleValue());
 		
 		model.addAttribute("user", u);
-		model.addAttribute("budget", bb);
+		model.addAttribute("budget", budget);
 		model.addAttribute("categories", c);
 		model.addAttribute("sub", sC);
 		model.addAttribute("banks", bA);
-		model.addAttribute("budgetTotal", totalForBudget);
+		model.addAttribute("budgetTotal", totalInBudget);
 		model.addAttribute("formatter", formatter);
-		model.addAttribute("thousand", thousand);
 		model.addAttribute("available", available);
 		return "budget.jsp";
 	}
