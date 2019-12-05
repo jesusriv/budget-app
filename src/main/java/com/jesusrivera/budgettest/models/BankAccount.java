@@ -16,8 +16,16 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="bank_accounts")
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property="id")
 public class BankAccount {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -31,6 +39,7 @@ public class BankAccount {
 	@Size(min=4)
 	private String typeOfAccount;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy="account")
 	private List<Transaction> transactions;
 	

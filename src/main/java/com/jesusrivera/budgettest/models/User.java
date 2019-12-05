@@ -19,8 +19,16 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="users")
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property="id")
 public class User {
 	
 	@Id
@@ -39,9 +47,11 @@ public class User {
 	@Transient
 	private String confirmPassword;
 	
+	@JsonManagedReference
 	@OneToOne(mappedBy="defaultUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Budget budget;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
 	private	List<Budget> budgets;
 	

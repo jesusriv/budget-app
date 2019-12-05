@@ -14,8 +14,15 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="categories")
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property="id")
 public class Category {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -24,6 +31,7 @@ public class Category {
 	@Size(min=2)
 	private String name;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy="category")
 	private List<SubCategory> subcategory;
 

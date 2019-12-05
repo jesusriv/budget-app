@@ -18,8 +18,16 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="subcategories")
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property="id")
 public class SubCategory {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -34,15 +42,19 @@ public class SubCategory {
 	
 	private double available;
 	
+	@JsonBackReference
 	@OneToMany
 	private List<Transaction> transactions;
 	
+	@JsonManagedReference
 	@OneToOne(mappedBy="subcategory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Goal goal;
 	
+	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Category category;
 	
+	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Budget budget;
 	
@@ -90,7 +102,7 @@ public class SubCategory {
 		this.activity = activity;
 	}
 
-	public double () {
+	public double getAvailable() {
 		return available;
 	}
 

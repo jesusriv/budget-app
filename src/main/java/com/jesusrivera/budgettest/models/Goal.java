@@ -13,8 +13,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="goals")
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property="id")
 public class Goal {
 	
 	@Id
@@ -33,6 +40,7 @@ public class Goal {
 	
 	private boolean completed;
 	
+	@JsonBackReference
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subcategory_id")
 	private SubCategory subcategory;

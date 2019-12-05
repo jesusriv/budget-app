@@ -16,8 +16,15 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="transactions")
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property="id")
 public class Transaction {
 	
 	@Id
@@ -34,9 +41,11 @@ public class Transaction {
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date date;
 	
+	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private BankAccount account;
 	
+	@JsonManagedReference
 	@ManyToOne
 	private SubCategory subcategory;
 	

@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,15 +15,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.jesusrivera.budgettest.models.Budget;
 import com.jesusrivera.budgettest.models.User;
 import com.jesusrivera.budgettest.repositories.BudgetRepository;
+import com.jesusrivera.budgettest.repositories.UserRepository;
 import com.jesusrivera.budgettest.services.BudgetService;
 import com.jesusrivera.budgettest.services.UserService;
 import com.jesusrivera.budgettest.validators.UserValidator;
 
-@Controller
+@RestController
 public class UserController {
 
 	@Autowired
@@ -36,6 +37,12 @@ public class UserController {
 	@Autowired
 	private BudgetRepository bR;
 
+	
+	@GetMapping("/api/getUser/{id}")
+	public User getUser(@PathVariable("id") Long id) {
+		User user = uS.findById(id);
+		return user;
+	}
 	
 	@PostMapping("/api/create/user")
 	public String createUser(@Valid @ModelAttribute("user") User user, BindingResult result, HttpSession session) {

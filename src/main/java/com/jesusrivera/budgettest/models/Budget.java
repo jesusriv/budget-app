@@ -18,8 +18,16 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="budgets")
+@JsonIdentityInfo(
+		generator = ObjectIdGenerators.PropertyGenerator.class,
+		property="id")
 public class Budget {
 
 	@Id
@@ -31,13 +39,17 @@ public class Budget {
 	
 	private double totalInBudget;
 
-	@OneToMany(mappedBy="budget", fetch = FetchType.LAZY)
-	private List<SubCategory> subcategories;
-	
+	@JsonBackReference
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "users_id")
 	private User defaultUser;
 	
+	@JsonBackReference
+	@OneToMany(mappedBy="budget", fetch = FetchType.LAZY)
+	private List<SubCategory> subcategories;
+	
+	
+	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 	
