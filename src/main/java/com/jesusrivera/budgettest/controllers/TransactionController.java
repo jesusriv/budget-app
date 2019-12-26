@@ -24,15 +24,16 @@ public class TransactionController {
 	@Autowired
 	private SubCategoryRepository sR;
 	
+	// NEW TRANSACTION (DEPOSIT / WITHDRAWAL)
 	@PostMapping("/api/bankaccounts/newTransaction/{bankid}")
-	public String newTransaction(@PathVariable("bankid") Long id, 
+	public Transaction newTransaction(@PathVariable("bankid") Long id, 
 			@Valid @ModelAttribute("transaction") Transaction t) {
 		Transaction tr = tS.newTransaction(id, t);
 		SubCategory s = sS.findById(tr.getSubcategory().getId());
 		s.setActivity(tr.getAmount() * -1);
 		s.setAvailable(s.getAvailable() - tr.getAmount());
 		sR.save(s);
-		return "redirect:/budget";
+		return t;
 	}
 	
 }

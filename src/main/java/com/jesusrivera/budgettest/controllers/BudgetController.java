@@ -22,23 +22,26 @@ public class BudgetController {
 //		Budget budget = bS.createForRegistration();
 //		return budget;
 //	}
-//	
-	@GetMapping("/api/budgets")
-	public List<Budget> getAlllBudgets() {
-		return bS.getAllBudgets();
+	
+	// GET ALL USER BUDGETS
+	@GetMapping("/api/budgets/{userId}")
+	public List<Budget> getAlllBudgets(@PathVariable("userId") Long id) {
+		return bS.getAllBudgetsByUser(id);
 	}
 	
+	// GET BUDGET BY ID
 	@GetMapping("/api/budget/{id}")
 	public Budget getById(@PathVariable("id") Long id) {
-		Budget b = bS.findById(id);
 		return bS.findById(id);
 	}
 	
+	// UPDATE BUDGET
 	@PutMapping("/api/budget/update/{id}")
 	public Budget updateBudget(@PathVariable("id") Long id, Budget budget) {
 		return bS.updateBudget(id, budget);
 	}
 	
+	// DELETE BUDGET 
 	@DeleteMapping("/api/budget/delete/{id}")
 	public String deleteBudget(@PathVariable("id") Long id) {
 		String result = bS.delete(id);

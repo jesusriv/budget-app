@@ -37,8 +37,9 @@ public class BankAccountController {
 	@Autowired
 	private BudgetRepository bR;
 	
+	// CREATE BANK ACCOUNT
 	@PostMapping("/api/create/bankaccount/{id}/{budgetid}")
-	public String create(@Valid @ModelAttribute("bankaccount") BankAccount bA, BindingResult result, @PathVariable("id") Long id, @PathVariable("budgetid") Long budgetid) {
+	public BankAccount create(@Valid @ModelAttribute("bankaccount") BankAccount bA, BindingResult result, @PathVariable("id") Long id, @PathVariable("budgetid") Long budgetid) {
 		if (result.hasErrors()) {
 			return null;
 		}
@@ -52,14 +53,17 @@ public class BankAccountController {
 		bR.save(budget);
 		bAR.save(b);
 		uR.save(u);
-		return "redirect:/budget";
+		return b;
 	}
 	
-	@GetMapping("/api/bankaccounts")
-	public List<BankAccount> getAll() {
-		return bAS.getAll();
+	// GET ALL BANK ACCOUNTS BY USER
+	@GetMapping("/api/bankaccounts/{userId}")
+	public List<BankAccount> getAll(@PathVariable("userId") Long id) {
+		User user = uS.findById(id);
+		return bAS.findByUser(user);
 	}
 	
+	// UPDATE BANK ACCOUNT
 	@PutMapping("/api/bankaccounts/update/{id}")
 	public BankAccount update(@PathVariable("id") Long id, BankAccount bA) {
 		return bAS.update(id, bA);

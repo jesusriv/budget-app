@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.jesusrivera.budgettest.models.Budget;
 import com.jesusrivera.budgettest.models.Category;
 import com.jesusrivera.budgettest.models.SubCategory;
+import com.jesusrivera.budgettest.models.User;
 import com.jesusrivera.budgettest.repositories.BudgetRepository;
 
 @Service
@@ -159,6 +160,11 @@ public class BudgetService {
 	
 	public List<Budget> getAllBudgets() {
 		return bR.findAll();
+	}
+	
+	public List<Budget> getAllBudgetsByUser(Long id) {
+		User u = uS.findById(id);
+		return bR.findByUser(u);
 	}
 	
 	public Budget updateBudget(Long id, Budget budget) {
