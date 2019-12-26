@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jesusrivera.budgettest.models.Budget;
 import com.jesusrivera.budgettest.models.SubCategory;
+import com.jesusrivera.budgettest.repositories.BudgetRepository;
 import com.jesusrivera.budgettest.repositories.SubCategoryRepository;
 
 @Service
@@ -14,6 +16,8 @@ public class SubCategoryService {
 
 	@Autowired
 	private SubCategoryRepository sR;
+	@Autowired
+	private BudgetRepository bR;
 	
 	public SubCategory create(String name) {
 		SubCategory s = new SubCategory(name, 0.00, 0.00);
@@ -29,6 +33,15 @@ public class SubCategoryService {
 		if (oS.isPresent()) {
 			SubCategory s = oS.get();
 			return s;
+		}
+		return null;
+	}
+	
+	public List<SubCategory> getByBudget(Long id) {
+		Optional<Budget> b = bR.findById(id);
+		if (b.isPresent()) {
+			Budget budget = b.get();
+			return sR.findByBudget(budget);
 		}
 		return null;
 	}

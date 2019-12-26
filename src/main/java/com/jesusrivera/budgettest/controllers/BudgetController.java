@@ -28,6 +28,12 @@ public class BudgetController {
 		return bS.getAllBudgets();
 	}
 	
+	@GetMapping("/api/budget/{id}")
+	public Budget getById(@PathVariable("id") Long id) {
+		Budget b = bS.findById(id);
+		return bS.findById(id);
+	}
+	
 	@PutMapping("/api/budget/update/{id}")
 	public Budget updateBudget(@PathVariable("id") Long id, Budget budget) {
 		return bS.updateBudget(id, budget);
