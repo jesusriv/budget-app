@@ -1,7 +1,6 @@
 package com.jesusrivera.budgettest.controllers;
 
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,15 +35,31 @@ public class UserController {
 	@Autowired
 	private BudgetRepository bR;
 
-	
-	@GetMapping("/api/getUser/{id}")
-	public User getUser(@PathVariable("id") Long id) {
-		User user = uS.findById(id);
-		return user;
+	// GET USER
+	@GetMapping("/api/user/{id}")
+	public User oneUser(@PathVariable("id") Long id) {
+		return uS.findById(id);
 	}
 	
+	// UPDATE USER INFORMATION
+	@PutMapping("/api/user/update/{id}")
+	public User updateUser(@PathVariable("id") Long id, User user) {
+		return uS.updateUser(user, id);
+	}
+	
+	// DELETE USER (ACCOUNT DELETION)
+	@DeleteMapping("/api/user/delete/{id}")
+	public String deleteUser(@PathVariable("id") Long id) {
+		String result = uS.deleteUser(id);
+		if (result == "succes") {
+			return "Succesfully deleted user";
+		} 
+		return "Something went wrong";
+	}
+	
+	// CREATE A NEW INSTANCE OF A USER (REGISTRATION)
 	@PostMapping("/api/create/user")
-	public String createUser(@RequestBody HashMap<String, String> body, BindingResult result, HttpSession session) {
+	public User createUser(@RequestBody HashMap<String, String> body, BindingResult result, HttpSession session) {
 		User user = new User(body.get("name"), body.get("email"), body.get("password"), body.get("confirm"));
 		uV.validate(user, result);
 		if (result.hasErrors()) {
@@ -57,9 +72,10 @@ public class UserController {
 		budget.setDefaultUser(u);
 		bR.save(budget);
 		session.setAttribute("userId", u.getId());
-		return "redirect:/budget";
+		return u;
 	}
 	
+	// LOGIN IN AN EXISTING USER
 	@PostMapping("/api/login")
 	public User loginUser(@RequestBody HashMap<String, String> body, HttpSession session, Model model) {
 		
@@ -73,6 +89,7 @@ public class UserController {
 		return null;
 	}
 	
+	// TEST: TBDELETED
 	@PostMapping("/api/login/user")
 	public User login(@RequestParam(value="email") String email, @RequestParam(value="password") String password, HttpSession session, Model model) {
 		boolean isAuthenticated = uS.authenticateUser(email, password);
@@ -85,37 +102,9 @@ public class UserController {
 		return null;
 	}
 	
+	// LOGOUT USER
 	@PostMapping("/api/logout")
 	public void logout(HttpSession session) {
 		session.invalidate();
-	}
-	
-	@GetMapping("/api/userSession")
-	public Long userSession(HttpSession session) {
-		return (Long) session.getAttribute("userId");
-	}
-	
-	@GetMapping("/api/users")
-	public List<User> getAllUsers() {
-		return uS.getAllUsers();
-	}
-	
-	@GetMapping("/api/user/{id}")
-	public User oneUser(@PathVariable("id") Long id) {
-		return uS.findById(id);
-	}
-	
-	@PutMapping("/api/user/update/{id}")
-	public User updateUser(@PathVariable("id") Long id, User user) {
-		return uS.updateUser(user, id);
-	}
-	
-	@DeleteMapping("/api/user/delete/{id}")
-	public String deleteUser(@PathVariable("id") Long id) {
-		String result = uS.deleteUser(id);
-		if (result == "succes") {
-			return "Succesfully deleted user";
-		} 
-		return "Something went wrong";
 	}
 }
